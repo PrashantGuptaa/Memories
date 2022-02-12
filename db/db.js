@@ -1,11 +1,20 @@
 const { Pool } = require("pg");
+require("dotenv").config();
 
-const pool = new Pool({
-  username: process.env.USERNAME,
-  password: process.env.PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.PORT,
-  host: process.env.HOST,
-});
+let pool;
+
+(async function () {
+  try {
+    pool = new Pool({
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+  } catch (e) {
+    console.error("Error while connecting to pool", e);
+  }
+})();
 
 module.exports = pool;
