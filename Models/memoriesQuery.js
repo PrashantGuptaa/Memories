@@ -9,7 +9,6 @@ const postMemories = async (userId, name, description, imgArr) => {
     };
     const memoryInsertionResult = await client.query(insertMemoryQuery);
     const { id: memoryId } = memoryInsertionResult.rows[0];
-    console.log
     const postImagesPromiseArr = [];
 
     for (const imgAddress of imgArr) {
