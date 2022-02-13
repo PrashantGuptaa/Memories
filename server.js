@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cookieSession = require("cookie-session");
-const pool = require('./db/db');
 const memoriesRoutes = require("./Routes/memories");
 app.use(cors());
 app.use(express.json());
@@ -14,7 +13,6 @@ app.use(
     keys: ["key1,", "key2"],
   })
 );
-pool.connect(() => console.log("------------Connected to Database--------------"));
 
 app.use(memoriesRoutes);
 app.get("/", (req, res) => {
