@@ -3,13 +3,14 @@ const memoriesRoutes = express.Router();
 
 const deleteCompleteMemory = require('../controllers/memoriesController/deleteCompleteMemory');
 const patchMemory = require('../controllers/memoriesController/patchMemory');
+const postImagesToMemory = require('../controllers/memoriesController/postImagesToMemory');
 const createMemories = require('./../controllers/memoriesController/createMemories');
 const getAllMemories = require('./../controllers/memoriesController/getAllMemories');
 const getSpecificMemoryData = require('./../controllers/memoriesController/getSpecificMemoryData');
 
 memoriesRoutes.post('/create/:userId', createMemories) // Create Memory
 memoriesRoutes.patch('/edit/:memoryId/:userId', patchMemory) // Edit Memory
-memoriesRoutes.patch('/add/images/:memoryId/:userId', () => {}) // Add Images to a memory
+memoriesRoutes.post('/add/images/:memoryId/:userId', postImagesToMemory) // Add Images to a memory
 memoriesRoutes.delete('/delete/images/:memoryId/:userId', () => {}) // Delete Image from a memory
 memoriesRoutes.delete('/delete/memory/:memoryId/:userId', deleteCompleteMemory) // Delete Complete Memory
 memoriesRoutes.get('/view/allMemories/:userId/:otherPersonEmailId', () => {}) // View Other User All Memories
