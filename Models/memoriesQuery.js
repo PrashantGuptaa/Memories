@@ -141,6 +141,27 @@ const fetchSpecificMemoryData = async (memoryId) => {
   }
 };
 
+const deleteMemoryImagesFromDB = async (memoryId, imgArr) => {
+  try {
+    await client.query("BEGIN");
+    const deleteImagesPromiseArr = [];
+
+    for (const imgId of imgArr) {
+      const deleteImagesQuery = {
+        text: `DELETE FROM public.images WHERE id=$1 AND memory_id=$2`,
+        values: [imgId, memoryId],
+      };
+      deleteImagesPromiseArr.push(client.query(deleteImagesQuery));
+    }
+    await Promise.all(deleteImagesPromiseArr);
+    await client.query("COMMIT");
+  } catch (e) {
+    const m = "Error while Deleting Image from memory from database";
+    console.error(m, e);
+    throw new Error(m, e);
+  }
+};
+
 module.exports = {
   postMemories,
   fetchAllMemories,
@@ -149,4 +170,5 @@ module.exports = {
   deleteCompleteMemoryFromDB,
   fetchSpecificMemoryData,
   insertImagesToMemory,
+  deleteMemoryImagesFromDB,
 };

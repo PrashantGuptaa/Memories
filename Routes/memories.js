@@ -2,6 +2,7 @@ const express = require('express');
 const memoriesRoutes = express.Router();
 
 const deleteCompleteMemory = require('../controllers/memoriesController/deleteCompleteMemory');
+const deleteImagesFromMemory = require('../controllers/memoriesController/deleteImagesFromMemory');
 const patchMemory = require('../controllers/memoriesController/patchMemory');
 const postImagesToMemory = require('../controllers/memoriesController/postImagesToMemory');
 const createMemories = require('./../controllers/memoriesController/createMemories');
@@ -11,7 +12,7 @@ const getSpecificMemoryData = require('./../controllers/memoriesController/getSp
 memoriesRoutes.post('/create/:userId', createMemories) // Create Memory
 memoriesRoutes.patch('/edit/:memoryId/:userId', patchMemory) // Edit Memory
 memoriesRoutes.post('/add/images/:memoryId/:userId', postImagesToMemory) // Add Images to a memory
-memoriesRoutes.delete('/delete/images/:memoryId/:userId', () => {}) // Delete Image from a memory
+memoriesRoutes.delete('/delete/images/:memoryId/:userId', deleteImagesFromMemory) // Delete Image from a memory
 memoriesRoutes.delete('/delete/memory/:memoryId/:userId', deleteCompleteMemory) // Delete Complete Memory
 memoriesRoutes.get('/view/allMemories/:userId/:otherPersonEmailId', () => {}) // View Other User All Memories
 memoriesRoutes.get('/view/memory/:userId/:otherPersonEmailId/:memoryId', () => {}) // View Other User Specific Memory
