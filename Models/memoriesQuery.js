@@ -68,7 +68,7 @@ const updateMemory = async (name, description, memoryId) => {
 const fetchSpecifcMemoryOfUser = async (userId, memoryId) => {
   try {
     const fetchSpecficMemoryOfUserQuery = {
-      text: `SELECT * FROM public.memories WHERE user_id=$1 and id=$2`,
+      text: `SELECT id FROM public.memories WHERE user_id=$1 and id=$2`,
       values: [userId, memoryId],
     };
     const fetchSpecficMemoryOfUserResult = await client.query(
@@ -99,4 +99,28 @@ const deleteCompleteMemoryFromDB = async (memoryId) => {
     }
   };
 
-module.exports = { postMemories, fetchAllMemories, updateMemory, fetchSpecifcMemoryOfUser, deleteCompleteMemoryFromDB };
+  const fetchSpecificMemoryData = async (memoryId) => {
+    try {
+      const selecteMemoryQuery = {
+        text: `SELECT * FROM public.memories WHERE id=$1`,
+        values: [memoryId],
+      };
+       const memoryResult = await client.query(selecteMemoryQuery);
+       const selectImagesQuery = {
+        text: `SELECT id, image FROM public.images WHERE memory_id=$1`,
+        values: [memoryId],
+       }
+       const imagesResult = await client.query(selectImagesQuery);
+
+      return {
+          ...memoryResult.rows[0],
+            imgArr: imagesResult.rows
+      }
+    } catch (e) {
+      const m = "Error while Deleting Complete memory data from database";
+      console.error(m, e);
+      throw new Error(m, e);
+    }
+  };
+
+module.exports = { postMemories, fetchAllMemories, updateMemory, fetchSpecifcMemoryOfUser, deleteCompleteMemoryFromDB, fetchSpecificMemoryData };
