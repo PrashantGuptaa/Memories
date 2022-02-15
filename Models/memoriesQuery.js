@@ -162,6 +162,21 @@ const deleteMemoryImagesFromDB = async (memoryId, imgArr) => {
   }
 };
 
+const getUserIdByEmail = async (email) => {
+  try {
+    const selectUserIdQuery = {
+      text: `SELECT id from public.users WHERE email=$1`,
+      values: [email]
+    }
+    const result = await client.query(selectUserIdQuery);
+    return result.rows[0];
+  } catch (e) {
+    const m = 'Error while fetching User-ID from Database';
+    console.error(m, e);
+    throw new Error(m, e);
+  }
+}
+
 module.exports = {
   postMemories,
   fetchAllMemories,
@@ -171,4 +186,5 @@ module.exports = {
   fetchSpecificMemoryData,
   insertImagesToMemory,
   deleteMemoryImagesFromDB,
+  getUserIdByEmail,
 };
